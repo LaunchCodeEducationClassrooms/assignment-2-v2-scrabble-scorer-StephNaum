@@ -33,12 +33,12 @@ function initialPrompt() {
   return userWord;
 }
 
-function simpleScore(word){
+function simpleScore(word) {
   let letterPoints = word.length;
   return letterPoints; 
 } 
 
-function vowelBonusScore(word){
+function vowelBonusScore(word) {
   let letterPoints=0;
   word = word.toUpperCase();
   for (let i=0; i<word.length; i++){
@@ -51,7 +51,7 @@ function vowelBonusScore(word){
   return letterPoints;
 }
 
-function scrabbleScore(){}
+function scrabbleScore() {}
 
 const scoringAlgorithms = [
   simpleScore = {
