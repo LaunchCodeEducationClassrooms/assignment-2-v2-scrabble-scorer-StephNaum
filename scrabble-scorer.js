@@ -1,5 +1,4 @@
 // inspired by https://exercism.io/tracks/javascript/exercises/etl/solutions/91f99a3cca9548cebe5975d7ebca6a85
-
 const input = require("readline-sync");
 
 const oldPointStructure = {
@@ -15,15 +14,11 @@ const oldPointStructure = {
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
 	let letterPoints = "";
- 
 	for (let i = 0; i < word.length; i++) {
- 
 	  for (const pointValue in oldPointStructure) {
- 
 		 if (oldPointStructure[pointValue].includes(word[i])) {
 			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
 		 }
- 
 	  }
 	}
 	return letterPoints;
@@ -31,28 +26,81 @@ function oldScrabbleScorer(word) {
 
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
-
+let userAnswer = [];
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+  let userWord = input.question(`Let's play some Scrabble!\n\nEnter a word to score: `);
+  userAnswer.push(userWord);
+  return userWord;
+}
+
+let simpleScore = function(word){
+  let letterPoints = word.length;
+  return letterPoints; 
+}; 
+
+let vowelBonusScore = function(word){
+  let letterPoints=0;
+  word = word.toUpperCase();
+  for (let i=0; i<word.length; i++){
+    if (word[i] === "A" || word[i] === "E" || word[i] === "I" || word[i] === "O" || word[i] === "U"){
+      letterPoints+=3;
+    } else {
+      letterPoints+=1;
+    }
+  }
+  return letterPoints;
 };
-
-let simpleScore;
-
-let vowelBonusScore;
 
 let scrabbleScore;
 
-const scoringAlgorithms = [];
+const scoringAlgorithms = [
+  simpleScore = {
+    name: 'Simple Score',
+    description: 'Each letter is worth 1 point.',
+    scorerFunction: simpleScore},
+  vowelBonusScore = {
+    name: 'Bonus Vowels',
+    description: 'Vowels are 3 pts, consonants are 1 pt.',
+    scorerFunction: vowelBonusScore},
+  oldScrabbleScorer = {
+    name: 'Scrabble',
+    description: 'The traditional scoring algorithm.',
+    scorerFunction: oldScrabbleScorer}
+    ];
 
-function scorerPrompt() {}
+function scorerPrompt() {  
+ let userChoice = Number(input.question(`\nWhich scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `));
+ if (userChoice === 0){
+    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[0].name}`);
+    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[0].scorerFunction(userAnswer[0])}`);
+    return userChoice;
+ } else if (userChoice === 1){
+    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[1].name}`);
+    console.log(`Score for '${userAnswer[0]}': ${scoringAlgorithms[1].scorerFunction(userAnswer[0])}`);
+    return userChoice;
+  } else if (userChoice === 2){
+    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[2].name}`);
+    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[2].scorerFunction(userAnswer[0])}`);
+    return userChoice;
+  } else {
+    console.log('Error. The number entered does not match an existing scoring algorithm. Please start again and pick a number between 0-2 (all included).');
+  }
+}
 
-function transform() {};
+function transform(object) {
+  for (item in oldPointStructure) {
+   
+  }
+
+}
 
 let newPointStructure;
+console.log(transform(newPointStructure));
 
 function runProgram() {
-   initialPrompt();
-   
+  initialPrompt();
+  scorerPrompt();
+  
 }
 
 // Don't write any code below this line //
