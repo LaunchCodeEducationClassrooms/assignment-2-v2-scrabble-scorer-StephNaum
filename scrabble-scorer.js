@@ -90,7 +90,7 @@ function scorerPrompt() {
     console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[2].scoringFunction(userAnswer[0])}`);
     return userChoice;
   } else {
-    console.log('Error. The number entered does not match an existing scoring algorithm. Please start again and pick a number between 0-2 (all included).');
+    return scorerPrompt(userAnswer[0]);
   }
 }
 
@@ -115,7 +115,7 @@ function transform(object) {
 }
 
 let newPointStructure = transform(oldPointStructure);
-
+newPointStructure[' '] = 0;
 
 function runProgram() {
   initialPrompt();
