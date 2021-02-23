@@ -52,42 +52,34 @@ function vowelBonusScore(word) {
 }
 
 function scrabbleScore() {}
-/*
-const scoringAlgorithms = [
-  simpleScore = {
-    name: 'Simple Score',
-    description: 'Each letter is worth 1 point.',
-    scorerFunction: simpleScore},
-  vowelBonusScore = {
-    name: 'Bonus Vowels',
-    description: 'Vowels are 3 pts, consonants are 1 pt.',
-    scorerFunction: vowelBonusScore},
-  oldScrabbleScorer = {
-    name: 'Scrabble',
-    description: 'The traditional scoring algorithm.',
-    scorerFunction: oldScrabbleScorer}
-]; */
 
 const scoringAlgorithms = [ 
   Object({ 
     name: 'Simple Score', 
     description: 'Each letter is worth 1 point.', 
-    scoringFunction: simpleScore }), 
-Object({ name: 'Bonus Vowels', description: 'Vowels are 3 pts, consonants are 1 pt.', scoringFunction: vowelBonusScore }), Object({ name: 'Scrabble', description: 'The traditional scoring algorithm.', scoringFunction: oldScrabbleScorer }) ];
+    scoringFunction: simpleScore}), 
+  Object({ 
+    name: 'Bonus Vowels', 
+    description: 'Vowels are 3 pts, consonants are 1 pt.', 
+    scoringFunction: vowelBonusScore}), 
+  Object({ 
+    name: 'Scrabble', 
+    description: 'The traditional scoring algorithm.', 
+    scoringFunction: oldScrabbleScorer}) ];
 
 function scorerPrompt() {  
  let userChoice = Number(input.question(`\nWhich scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `));
  if (userChoice === 0){
     //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[0].name}`);
-    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[0].scorerFunction(userAnswer[0])}`);
+    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[0].scoringFunction(userAnswer[0])}`);
     return userChoice;
  } else if (userChoice === 1){
     //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[1].name}`);
-    console.log(`Score for '${userAnswer[0]}': ${scoringAlgorithms[1].scorerFunction(userAnswer[0])}`);
+    console.log(`Score for '${userAnswer[0]}': ${scoringAlgorithms[1].scoringFunction(userAnswer[0])}`);
     return userChoice;
   } else if (userChoice === 2){
     //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[2].name}`);
-    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[2].scorerFunction(userAnswer[0])}`);
+    console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[2].scoringFunction(userAnswer[0])}`);
     return userChoice;
   } else {
     console.log('Error. The number entered does not match an existing scoring algorithm. Please start again and pick a number between 0-2 (all included).');
@@ -95,14 +87,25 @@ function scorerPrompt() {
 }
 
 function transform(object) {
-  for (item in oldPointStructure) {
-   
+  let transformedObject = {};
+  for (key in object) {
+    for(let i=0; i<object[key].length;i++){
+      //object[key][i] = object[key][i].toLowerCase();
+      object[key]= object[key].sort();
+      transformedObject[object[key][i].toLowerCase()] = key;
+      for(let j=0; j<object[key].length;j++){
+        transformedObject[(object[key][j]).toLowerCase()] = key;
+      }
+    }
+    transformedObject = Object.keys(transformedObject).sort().reduce(function (result, key) {
+    result[key] = transformedObject[key];
+    return result;}, {});
   }
-
+  return transformedObject;
 }
 
-let newPointStructure;
-console.log(transform(newPointStructure));
+let newPointStructure = transform(oldPointStructure);
+
 
 function runProgram() {
   initialPrompt();
