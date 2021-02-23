@@ -79,17 +79,14 @@ const scoringAlgorithms = [
     scoringFunction: scrabbleScore}) ];
 
 function scorerPrompt() {  
- let userChoice = Number(input.question(`\nWhich scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `));
+ let userChoice = Number(input.question(`Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `));
  if (userChoice === 0){
-    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[0].name}`);
     console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[0].scoringFunction(userAnswer[0])}`);
     return userChoice;
  } else if (userChoice === 1){
-    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[1].name}`);
     console.log(`Score for '${userAnswer[0]}': ${scoringAlgorithms[1].scoringFunction(userAnswer[0])}`);
     return userChoice;
   } else if (userChoice === 2){
-    //console.log(`${userChoice} - algorithm name: ${scoringAlgorithms[2].name}`);
     console.log(`Score for '${userAnswer[0]}' : ${scoringAlgorithms[2].scoringFunction(userAnswer[0])}`);
     return userChoice;
   } else {
@@ -100,21 +97,20 @@ function scorerPrompt() {
 function transform(object) {
   let transformedObject = {};
   for (key in object) {
-    
     for(let i=0; i<object[key].length;i++){
-      //object[key][i] = object[key][i].toLowerCase();
       object[key]= object[key].sort();
       transformedObject[object[key][i].toLowerCase()] = key;
-     
     }
-    /*  Option to alphabetically sort keys
+    /*  // Option to alphabetically sort keys
     transformedObject = Object.keys(transformedObject).sort().reduce(function (result, key) {
     result[key] = transformedObject[key];
     return result;
     }, {}); */
-    
-   
   }
+  transformedObject = Object.keys(transformedObject).reduce(function(result, key){
+    result[key] = Number(transformedObject[key]);
+  return result;
+  }, {});
   return transformedObject;
 }
 
