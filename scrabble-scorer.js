@@ -51,7 +51,18 @@ function vowelBonusScore(word) {
   return letterPoints;
 }
 
-function scrabbleScore() {}
+function scrabbleScore(word) {
+  word = word.toLowerCase();
+	let pointValue = 0;
+	for (let i = 0; i < word.length; i++) {
+	  for (letterKeys in newPointStructure) {
+		 if (letterKeys === word[i]) {
+       pointValue += Number(newPointStructure[letterKeys]);
+		 }
+	  }
+	}
+	return pointValue;
+}
 
 const scoringAlgorithms = [ 
   Object({ 
@@ -65,7 +76,7 @@ const scoringAlgorithms = [
   Object({ 
     name: 'Scrabble', 
     description: 'The traditional scoring algorithm.', 
-    scoringFunction: oldScrabbleScorer}) ];
+    scoringFunction: scrabbleScore}) ];
 
 function scorerPrompt() {  
  let userChoice = Number(input.question(`\nWhich scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: `));
@@ -89,17 +100,20 @@ function scorerPrompt() {
 function transform(object) {
   let transformedObject = {};
   for (key in object) {
+    
     for(let i=0; i<object[key].length;i++){
       //object[key][i] = object[key][i].toLowerCase();
       object[key]= object[key].sort();
       transformedObject[object[key][i].toLowerCase()] = key;
-      for(let j=0; j<object[key].length;j++){
-        transformedObject[(object[key][j]).toLowerCase()] = key;
-      }
+     
     }
+    /*  Option to alphabetically sort keys
     transformedObject = Object.keys(transformedObject).sort().reduce(function (result, key) {
     result[key] = transformedObject[key];
-    return result;}, {});
+    return result;
+    }, {}); */
+    
+   
   }
   return transformedObject;
 }
